@@ -50,7 +50,22 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Valeur actuelle des dons
-let currentDonationValue = 0;
+let _currentDonationValue = 0;
+Object.defineProperty(window, "currentDonationValue", {
+    get() {
+        return _currentDonationValue;
+    },
+    set(val) {
+        _currentDonationValue = val;
+        const valueSpan = document.getElementById("donation-value");
+        if (valueSpan) {
+            valueSpan.textContent = _currentDonationValue + "€";
+        }
+        if (window.setDonationGoals && window.donationGoals) {
+            updateDonationGoalsOpacity(window.donationGoals);
+        }
+    },
+});
 
 function createDonationGoalsList(goals) {
     const listElement = document.getElementById("donation-goals-list");
@@ -63,6 +78,7 @@ function createDonationGoalsList(goals) {
         listElement.appendChild(li);
     });
     window.setDonationGoals(goals);
+    window.donationGoals = goals; // <-- Ajout pour rendre la liste globale
 }
 
 function updateDonationGoalsOpacity(goals) {
