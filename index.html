@@ -7,6 +7,16 @@
         <link rel="stylesheet" href="index.css" />
     </head>
     <body>
+        <label for="donation-slider">Montant actuel des dons :</label>
+        <input
+            type="range"
+            id="donation-slider"
+            min="0"
+            max="100000"
+            step="100"
+            value="0"
+            style="width: 300px" />
+        <span id="donation-value">0€</span>
         <ul id="donation-goals-list"></ul>
         <script src="donation-goal.js"></script>
     </body>

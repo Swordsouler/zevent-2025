@@ -41,4 +41,5 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
+    transition: opacity 0.5s;
 }
