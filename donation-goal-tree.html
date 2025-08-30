@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Arbre de dons - ZEvent 2025</title>
         <link rel="stylesheet" href="tree-slider.css" />
+        <link rel="stylesheet" href="index.css" />
     </head>
     <body>
         <div class="tree-slider-container">
@@ -16,17 +17,13 @@
                     class="tree-fill"
                     id="treeFillImg" />
             </div>
-            <div class="slider-controls">
-                <label for="treeFillSlider">Remplissage :</label>
-                <input
-                    type="range"
-                    id="treeFillSlider"
-                    min="0"
-                    max="100"
-                    value="0" />
-                <span id="treeFillValue">0%</span>
-            </div>
+            <ul
+                id="donation-goals-list"
+                style="position: absolute; bottom: 0"></ul>
         </div>
+        <script src="streamer-info.js"></script>
+        <script src="donation-goal.js"></script>
+        <script src="streamcharity-ws.js"></script>
         <script src="donation-goal-tree.js"></script>
     </body>
 </html>

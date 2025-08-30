@@ -121,6 +121,12 @@ function isReverseMode() {
 
 function createDonationGoalsList(goals, animateIdx = null) {
     const listElement = document.getElementById("donation-goals-list");
+    if (!listElement) {
+        // Pas de liste à afficher dans cette page, on synchronise juste les variables globales
+        window.setDonationGoals(goals);
+        window.donationGoals = goals;
+        return;
+    }
     listElement.innerHTML = "";
 
     // Inverse la liste si reverse
@@ -201,6 +207,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
 
 function updateDonationGoalsOpacity(goals) {
     const listElement = document.getElementById("donation-goals-list");
+    if (!listElement) return; // Ajouté : évite l’erreur si l’élément n’existe pas
     let nextGoalIdx = goals.findIndex((g) => currentDonationValue < g.valeur);
     if (nextGoalIdx === -1) nextGoalIdx = goals.length;
 
