@@ -7,22 +7,30 @@ script.src =
 document.head.appendChild(script);
 
 script.onload = function () {
-    document.addEventListener("streamerInfoReady", function () {
+    function initStreamlabsSocket() {
         const socketToken = window.streamerInfo.socketToken;
         const streamlabs = io(
             `https://sockets.streamlabs.com?token=${socketToken}`,
             { transports: ["websocket"] }
         );
-
-        // Ajoute cette ligne pour exposer le socket globalement
         window.streamlabs = streamlabs;
 
-        // 4. Écoute des événements
+        streamlabs.on("connect", () => {
+            console.log("Connecté au websocket Streamlabs !");
+        });
+        streamlabs.on("disconnect", () => {
+            console.log("Déconnecté du websocket Streamlabs !");
+        });
+
+        if (streamlabs.connected) {
+            console.log("La connexion websocket est active.");
+        } else {
+            console.log("La connexion websocket n'est pas active.");
+        }
+
         streamlabs.on("event", (eventData) => {
             if (/*!eventData.for && */ eventData.type === "donation") {
-                // Gérer les donations
                 console.log("Donation:", eventData.message);
-                // Dispatch l'événement vers donation-goal.js
                 document.dispatchEvent(
                     new CustomEvent("donationEvent", { detail: eventData })
                 );
@@ -43,5 +51,15 @@ script.onload = function () {
                 }
             }
         });
-    });
+    }
+
+    if (window.streamerInfo) {
+        initStreamlabsSocket();
+    } else {
+        document.addEventListener("streamerInfoReady", initStreamlabsSocket);
+    }
+};
+
+script.onerror = function () {
+    console.error("Échec du chargement de Socket.IO !");
 };

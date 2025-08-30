@@ -70,8 +70,8 @@ Object.defineProperty(window, "currentDonationValue", {
 });
 
 // Initialiser la valeur de donation depuis l'API ZEvent
-document.addEventListener("streamerInfoReady", function () {
-    // Utilise window.streamerInfo.username
+function fetchAndSetDonationValue() {
+    if (!window.streamerInfo || !window.streamerInfo.username) return;
     fetch("https://api.zevent.fr/streamer/" + window.streamerInfo.username)
         .then((response) => response.json())
         .then((data) => {
@@ -87,7 +87,13 @@ document.addEventListener("streamerInfoReady", function () {
                 window.currentDonationValue = data.donationAmount.number;
             }
         });
-});
+}
+
+if (window.streamerInfo && window.streamerInfo.username) {
+    fetchAndSetDonationValue();
+} else {
+    document.addEventListener("streamerInfoReady", fetchAndSetDonationValue);
+}
 
 function isZoomMode() {
     const zoom = new URLSearchParams(window.location.search).has("zoom");
