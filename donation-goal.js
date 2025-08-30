@@ -129,8 +129,8 @@ function createDonationGoalsList(goals, animateIdx = null) {
             li.setAttribute("data-goal-index", i);
             li.classList.add("goal-attained");
             li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
-            // Anime uniquement le dernier goal atteint
-            if (animateIdx !== null && i === animateIdx - 1) {
+            // Anime uniquement les goals atteints si animateIdx est défini
+            if (animateIdx !== null) {
                 li.classList.add("goal-attained-animate");
             }
             listElement.appendChild(li);
@@ -143,6 +143,10 @@ function createDonationGoalsList(goals, animateIdx = null) {
             li.classList.add("goal-next");
             li.style.opacity = "0.5";
             li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            // Anime le goal non atteint uniquement sur le déplacement
+            if (animateIdx !== null) {
+                li.classList.add("goal-next-animate");
+            }
             listElement.appendChild(li);
         }
     }

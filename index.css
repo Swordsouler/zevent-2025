@@ -54,18 +54,35 @@ body {
 }
 
 .goal-attained-animate {
-    animation: goalUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: goalUpMove 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     z-index: 2;
     position: relative;
 }
-@keyframes goalUp {
+@keyframes goalUpMove {
     0% {
         opacity: 0.5;
+        transform: translateY(40px);
     }
     70% {
         opacity: 1;
+        transform: translateY(0px);
     }
     100% {
         opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.goal-next-animate {
+    animation: goalNextUpMove 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 2;
+    position: relative;
+}
+@keyframes goalNextUpMove {
+    0% {
+        transform: translateY(40px);
+    }
+    100% {
+        transform: translateY(0px);
     }
 }
