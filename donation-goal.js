@@ -192,3 +192,25 @@ function updateDonationGoalsOpacity(goals) {
         });
     }
 }
+
+document.addEventListener("donationEvent", function (e) {
+    const eventData = e.detail;
+    if (Array.isArray(eventData.message)) {
+        eventData.message.forEach((don) => {
+            const montant = parseFloat(don.amount);
+            if (!isNaN(montant)) {
+                if (typeof window.currentDonationValue === "undefined") {
+                    window.currentDonationValue = 0;
+                }
+                window.currentDonationValue += montant;
+                const valueSpan = document.getElementById("donation-value");
+                if (valueSpan) {
+                    valueSpan.textContent = window.currentDonationValue + "€";
+                }
+                if (window.setDonationGoals) {
+                    updateDonationGoalsOpacity(window.donationGoals || []);
+                }
+            }
+        });
+    }
+});

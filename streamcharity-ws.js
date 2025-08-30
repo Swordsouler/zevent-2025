@@ -14,34 +14,18 @@ script.onload = function () {
             { transports: ["websocket"] }
         );
 
+        // Ajoute cette ligne pour exposer le socket globalement
+        window.streamlabs = streamlabs;
+
         // 4. Écoute des événements
         streamlabs.on("event", (eventData) => {
             if (/*!eventData.for && */ eventData.type === "donation") {
                 // Gérer les donations
                 console.log("Donation:", eventData.message);
-                // Additionner le montant de la donation au total
-                if (Array.isArray(eventData.message)) {
-                    eventData.message.forEach((don) => {
-                        const montant = parseFloat(don.amount);
-                        if (!isNaN(montant)) {
-                            // Conversion en euros si nécessaire, sinon garder la devise
-                            currentDonationValue += montant;
-                            // Mettre à jour l'affichage
-                            const valueSpan =
-                                document.getElementById("donation-value");
-                            if (valueSpan) {
-                                valueSpan.textContent =
-                                    currentDonationValue + "€";
-                            }
-                            // Mettre à jour l'opacité des goals
-                            if (window.setDonationGoals) {
-                                updateDonationGoalsOpacity(
-                                    window.donationGoals || []
-                                );
-                            }
-                        }
-                    });
-                }
+                // Dispatch l'événement vers donation-goal.js
+                document.dispatchEvent(
+                    new CustomEvent("donationEvent", { detail: eventData })
+                );
             }
             if (eventData.for === "twitch_account") {
                 switch (eventData.type) {
