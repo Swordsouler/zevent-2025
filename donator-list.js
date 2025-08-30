@@ -5,6 +5,16 @@ function getListSize() {
     return isNaN(size) ? 5 : size; // Par défaut 5
 }
 
+// Ajout : récupère l'ancrage et l'affichage du montant
+function getAnchor() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("anchor") === "right" ? "right" : "left";
+}
+function getShowAmount() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("showAmount") !== "false"; // true par défaut
+}
+
 const donators = [];
 
 function addDonator(name, amount) {
@@ -32,9 +42,30 @@ function renderDonatorList() {
         document.body.appendChild(ul);
     }
     ul.innerHTML = "";
+    const anchor = getAnchor();
+    const showAmount = getShowAmount();
+    // Ajout : change la classe du body selon l'ancrage
+    document.body.classList.remove("anchor-left", "anchor-right");
+    document.body.classList.add(
+        anchor === "right" ? "anchor-right" : "anchor-left"
+    );
     donators.forEach((don) => {
         const li = document.createElement("li");
-        li.innerHTML = `<span class="donator-name">${don.name}</span> <span class="donator-amount">${don.amount}€</span>`;
+        if (anchor === "right") {
+            // Pseudo à droite, montant à gauche
+            li.innerHTML = `${
+                showAmount
+                    ? `<span class="donator-amount">${don.amount}€</span>`
+                    : ""
+            } <span class="donator-name">${don.name}</span>`;
+        } else {
+            // Pseudo à gauche, montant à droite
+            li.innerHTML = `<span class="donator-name">${don.name}</span> ${
+                showAmount
+                    ? `<span class="donator-amount">${don.amount}€</span>`
+                    : ""
+            }`;
+        }
         ul.appendChild(li);
     });
 }

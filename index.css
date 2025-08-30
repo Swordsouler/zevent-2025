@@ -72,6 +72,10 @@ body::-webkit-scrollbar,
     gap: 10px;
 }
 
+.anchor-right #donator-list {
+    align-items: flex-end;
+}
+
 #donation-goals-list li,
 #donator-list li {
     font-size: 2em;

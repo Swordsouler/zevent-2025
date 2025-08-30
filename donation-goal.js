@@ -49,6 +49,15 @@ document.addEventListener("DOMContentLoaded", function () {
     window.setDonationGoals = function (goals) {
         donationGoals = goals;
     };
+
+    // Ajout : gestion du point d'ancrage via query paramètre
+    const params = new URLSearchParams(window.location.search);
+    const anchor = params.get("anchor");
+    if (anchor === "right") {
+        document.body.classList.add("anchor-right");
+    } else {
+        document.body.classList.add("anchor-left");
+    }
 });
 
 // Valeur actuelle des dons
