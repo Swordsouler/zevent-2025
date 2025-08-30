@@ -86,3 +86,7 @@ body {
         transform: translateY(0px);
     }
 }
+
+li {
+    margin: 0;
+}
