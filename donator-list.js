@@ -8,8 +8,8 @@ function getListSize() {
 const donators = [];
 
 function addDonator(name, amount) {
-    donators.unshift({ name, amount });
-    donators.splice(getListSize()); // Garde seulement les x derniers
+    donators.push({ name, amount }); // Ajoute en bas
+    donators.splice(0, donators.length - getListSize()); // Garde seulement les x derniers, retire en haut
     renderDonatorList();
     // Après le rendu, applique l'animation à tous les donateurs
     const ul = document.getElementById("donator-list");
@@ -70,3 +70,11 @@ document.addEventListener("donationEvent", function (e) {
         });
     }
 });
+
+// set interval simulate many donator (1 every 100ms)
+/*setInterval(() => {
+    const names = ["Alice", "Bob", "Charlie", "David", "Eve"];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const randomAmount = (Math.random() * 100).toFixed(2);
+    addDonator(randomName, randomAmount);
+}, 10);*/
