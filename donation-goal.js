@@ -20,7 +20,9 @@ function loadDonationGoalsFromCSV(csvPath) {
                             valeur: parseInt(row.valeur, 10),
                             text: row.text,
                         }))
-                        .filter((goal) => goal.valeur && goal.text);
+                        .filter(
+                            (goal) => Number.isFinite(goal.valeur) && goal.text
+                        );
                     createDonationGoalsList(goals);
                     updateDonationGoalsOpacity(goals);
                 },
@@ -119,7 +121,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
             "[DONATION GOALS] Affichage de la liste complète des goals"
         );
         goals.forEach((goal, idx) => {
-            if (!goal.valeur || !goal.text) return;
+            if (!Number.isFinite(goal.valeur) || !goal.text) return;
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", idx);
             li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;

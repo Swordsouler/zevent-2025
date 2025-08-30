@@ -28,8 +28,8 @@ body {
 }
 
 .donation-euro {
-    min-width: 120px;
-    max-width: 120px;
+    min-width: 200px;
+    max-width: 200px;
 }
 
 /* Masquer toutes les scrollbars */
