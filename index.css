@@ -70,15 +70,12 @@ body {
 }
 @keyframes goalUpMove {
     0% {
-        opacity: 0.5;
         transform: translateY(var(--goal-move, 22px));
     }
     70% {
-        opacity: 1;
         transform: translateY(0px);
     }
     100% {
-        opacity: 1;
         transform: translateY(0px);
     }
 }
