@@ -67,6 +67,19 @@ Object.defineProperty(window, "currentDonationValue", {
     },
 });
 
+// Initialiser la valeur de donation depuis l'API ZEvent
+fetch("https://api.zevent.fr/streamer/crocodyletv")
+    .then((response) => response.json())
+    .then((data) => {
+        if (
+            data &&
+            data.donationAmount &&
+            typeof data.donationAmount.number === "number"
+        ) {
+            window.currentDonationValue = data.donationAmount.number;
+        }
+    });
+
 function createDonationGoalsList(goals) {
     const listElement = document.getElementById("donation-goals-list");
     listElement.innerHTML = "";
