@@ -91,7 +91,6 @@ document.addEventListener("streamerInfoReady", function () {
 
 function isZoomMode() {
     const zoom = new URLSearchParams(window.location.search).has("zoom");
-    if (zoom) console.log("[ZOOM MODE] Activé");
     return zoom;
 }
 
@@ -112,6 +111,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
             listElement.appendChild(li);
         });
     } else {
+        console.log("[DONATION GOALS] Affichage en mode zoom");
         // Mode zoom : affiche les goals atteints + le prochain à atteindre
         let nextGoalIdx = goals.findIndex(
             (g) => currentDonationValue < g.valeur
