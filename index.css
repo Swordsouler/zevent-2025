@@ -52,3 +52,20 @@ body {
     align-items: flex-start;
     transition: opacity 0.5s;
 }
+
+.goal-attained-animate {
+    animation: goalUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    z-index: 2;
+    position: relative;
+}
+@keyframes goalUp {
+    0% {
+        opacity: 0.5;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}

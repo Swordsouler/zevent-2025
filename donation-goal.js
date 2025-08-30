@@ -1,3 +1,5 @@
+// Suivi du dernier goal atteint pour les logs de changement d'objectif
+let lastGoalIdx = null;
 // Charger PapaParse dynamiquement
 const papaScript = document.createElement("script");
 papaScript.src =
@@ -87,26 +89,90 @@ document.addEventListener("streamerInfoReady", function () {
         });
 });
 
-function createDonationGoalsList(goals) {
+function isZoomMode() {
+    const zoom = new URLSearchParams(window.location.search).has("zoom");
+    if (zoom) console.log("[ZOOM MODE] Activé");
+    return zoom;
+}
+
+function createDonationGoalsList(goals, animateIdx = null) {
     const listElement = document.getElementById("donation-goals-list");
     listElement.innerHTML = "";
-    goals.forEach((goal, idx) => {
-        if (!goal.valeur || !goal.text) return;
-        const li = document.createElement("li");
-        li.setAttribute("data-goal-index", idx);
-        li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
-        listElement.appendChild(li);
-    });
+
+    if (!isZoomMode()) {
+        // Mode normal : affiche tous les goals
+        console.log(
+            "[DONATION GOALS] Affichage de la liste complète des goals"
+        );
+        goals.forEach((goal, idx) => {
+            if (!goal.valeur || !goal.text) return;
+            const li = document.createElement("li");
+            li.setAttribute("data-goal-index", idx);
+            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            listElement.appendChild(li);
+        });
+    } else {
+        // Mode zoom : affiche les goals atteints + le prochain à atteindre
+        let nextGoalIdx = goals.findIndex(
+            (g) => currentDonationValue < g.valeur
+        );
+        if (nextGoalIdx === -1) nextGoalIdx = goals.length; // tous atteints
+
+        console.log(
+            `[ZOOM MODE] Prochain goal à atteindre : index ${nextGoalIdx}`
+        );
+
+        // Affiche les goals atteints au-dessus
+        for (let i = 0; i < nextGoalIdx; i++) {
+            const goal = goals[i];
+            const li = document.createElement("li");
+            li.setAttribute("data-goal-index", i);
+            li.classList.add("goal-attained");
+            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            // Anime uniquement le dernier goal atteint
+            if (animateIdx !== null && i === animateIdx - 1) {
+                li.classList.add("goal-attained-animate");
+            }
+            listElement.appendChild(li);
+        }
+        // Affiche le prochain goal à atteindre en bas
+        if (nextGoalIdx < goals.length) {
+            const goal = goals[nextGoalIdx];
+            const li = document.createElement("li");
+            li.setAttribute("data-goal-index", nextGoalIdx);
+            li.classList.add("goal-next");
+            li.style.opacity = "0.5";
+            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            listElement.appendChild(li);
+        }
+    }
     window.setDonationGoals(goals);
-    window.donationGoals = goals; // <-- Ajout pour rendre la liste globale
+    window.donationGoals = goals;
 }
 
 function updateDonationGoalsOpacity(goals) {
     const listElement = document.getElementById("donation-goals-list");
-    Array.from(listElement.children).forEach((li, idx) => {
-        const goal = goals[idx];
-        if (!goal) return;
-        const opacity = currentDonationValue >= goal.valeur ? 1 : 0.5;
-        li.style.opacity = opacity;
-    });
+    let nextGoalIdx = goals.findIndex((g) => currentDonationValue < g.valeur);
+    if (nextGoalIdx === -1) nextGoalIdx = goals.length;
+
+    if (lastGoalIdx !== nextGoalIdx) {
+        // Animation lors du passage au goal suivant
+        if (isZoomMode() && nextGoalIdx > 0) {
+            createDonationGoalsList(goals, nextGoalIdx);
+            setTimeout(() => {
+                createDonationGoalsList(goals);
+                updateDonationGoalsOpacity(goals);
+            }, 700);
+        }
+        lastGoalIdx = nextGoalIdx;
+    }
+
+    if (!isZoomMode()) {
+        Array.from(listElement.children).forEach((li, idx) => {
+            const goal = goals[idx];
+            if (!goal) return;
+            const opacity = currentDonationValue >= goal.valeur ? 1 : 0.5;
+            li.style.opacity = opacity;
+        });
+    }
 }
