@@ -130,7 +130,8 @@ function createDonationGoalsList(goals, animateIdx = null) {
     listElement.innerHTML = "";
 
     // Inverse la liste si reverse
-    const displayGoals = isReverseMode() ? [...goals].reverse() : goals;
+    // const displayGoals = isReverseMode() ? [...goals].reverse() : goals;
+    const displayGoals = goals;
 
     // Ajout : padding vertical selon le mode
     if (!isZoomMode()) {
@@ -259,8 +260,8 @@ document.addEventListener("donationEvent", function (e) {
 setInterval(() => {
     const event = new CustomEvent("donationEvent", {
         detail: {
-            message: [{ amount: "100" }],
+            message: [{ amount: "10" }],
         },
     });
     document.dispatchEvent(event);
-}, 1000);
+}, 100);

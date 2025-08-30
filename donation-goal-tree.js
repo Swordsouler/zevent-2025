@@ -62,28 +62,40 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
             }
         }
-        console.log(`[getFillHeightPx] Hauteur finale: ${height}`);
+        // Ajout du padding de 100px
+        height += 100;
+        console.log(
+            `[getFillHeightPx] Hauteur finale (avec padding): ${height}`
+        );
         return height;
     }
 
     function updateFill() {
-        // Hauteur totale de la liste
-        const listHeight = goalsList.offsetHeight;
-        if (listHeight === 0) {
-            console.log("[updateFill] listHeight = 0, rien à faire");
+        if (!goalsList || !window.donationGoals) {
+            console.log("[updateFill] Pas de goalsList ou donationGoals");
             return;
         }
-        // Hauteur des goals atteints
-        const fillHeight = getFillHeightPx();
-        // Calcule le pourcentage de remplissage vertical
-        const percent = Math.min(
-            100,
-            Math.round((fillHeight / listHeight) * 100)
-        );
+        const value = window.currentDonationValue || 0;
+        const goals = window.donationGoals;
+        let attainedCount = goals.findIndex((g) => value < g.valeur);
+        if (attainedCount === -1) attainedCount = goals.length;
+
+        let percent = 100;
+        if (attainedCount < goals.length && attainedCount > 0) {
+            const prevValue = goals[attainedCount - 1].valeur;
+            const nextValue = goals[attainedCount].valeur;
+            percent = ((value - prevValue) / (nextValue - prevValue)) * 100;
+            percent = Math.max(0, Math.min(100, percent));
+        } else if (attainedCount === 0) {
+            // Avant le premier palier
+            const nextValue = goals[0].valeur;
+            percent = (value / nextValue) * 100;
+            percent = Math.max(0, Math.min(100, percent));
+        }
+
         console.log(
-            `[updateFill] listHeight: ${listHeight}, fillHeight: ${fillHeight}, percent: ${percent}`
+            `[updateFill] value: ${value}, attainedCount: ${attainedCount}, percent: ${percent}`
         );
-        // Remplit de bas en haut
         fillImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     }
 
