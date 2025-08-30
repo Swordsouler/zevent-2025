@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: #fff;
 }
 
 /* Conteneur des images d'arbre */
@@ -14,6 +13,18 @@
     width: 400px;
     height: 600px;
     margin-bottom: 30px;
+}
+
+body {
+    font-family: "AQCT", Arial, sans-serif;
+    background: white;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Prend toute la hauteur */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Ancre le contenu en bas */
+    align-items: flex-start; /* Ancre à gauche */
 }
 
 /* Rotation du conteneur si reverse=true */

@@ -52,9 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
         donationGoals = goals;
     };
 
-    // Ajout : gestion du point d'ancrage via query paramètre
+    // Ajout : gestion du point d'ancrage via query paramètre ou reverse
     const params = new URLSearchParams(window.location.search);
-    const anchor = params.get("anchor");
+    let anchor = params.get("anchor");
+    if (isReverseMode()) {
+        anchor = anchor === "right" ? "left" : "right";
+    }
     if (anchor === "right") {
         document.body.classList.add("anchor-right");
     } else {
@@ -111,16 +114,27 @@ function isZoomMode() {
     return zoom;
 }
 
+function isReverseMode() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("reverse") === "true";
+}
+
 function createDonationGoalsList(goals, animateIdx = null) {
     const listElement = document.getElementById("donation-goals-list");
     listElement.innerHTML = "";
 
+    // Inverse la liste si reverse
+    const displayGoals = isReverseMode() ? [...goals].reverse() : goals;
+
+    // Ajout : padding vertical selon le mode
     if (!isZoomMode()) {
+        listElement.style.paddingTop = "100px";
+        listElement.style.paddingBottom = "100px";
         // Mode normal : affiche tous les goals
         console.log(
             "[DONATION GOALS] Affichage de la liste complète des goals"
         );
-        goals.forEach((goal, idx) => {
+        displayGoals.forEach((goal, idx) => {
             if (!Number.isFinite(goal.valeur) || !goal.text) return;
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", idx);
@@ -128,20 +142,22 @@ function createDonationGoalsList(goals, animateIdx = null) {
             listElement.appendChild(li);
         });
     } else {
+        listElement.style.paddingTop = "0";
+        listElement.style.paddingBottom = "0";
         console.log("[DONATION GOALS] Affichage en mode zoom");
         // Mode zoom : affiche les goals atteints + le prochain à atteindre
-        let nextGoalIdx = goals.findIndex(
+        let nextGoalIdx = displayGoals.findIndex(
             (g) => currentDonationValue < g.valeur
         );
-        if (nextGoalIdx === -1) nextGoalIdx = goals.length; // tous atteints
+        if (nextGoalIdx === -1) nextGoalIdx = displayGoals.length; // tous atteints
 
         // On prépare la variable pour la hauteur du prochain goal
         let nextGoalHeight = 0;
 
         // On crée d'abord le prochain goal (pour mesurer sa hauteur)
         let nextGoalLi = null;
-        if (nextGoalIdx < goals.length) {
-            const goal = goals[nextGoalIdx];
+        if (nextGoalIdx < displayGoals.length) {
+            const goal = displayGoals[nextGoalIdx];
             nextGoalLi = document.createElement("li");
             nextGoalLi.setAttribute("data-goal-index", nextGoalIdx);
             nextGoalLi.classList.add("goal-next");
@@ -154,7 +170,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
 
         // Affiche les goals atteints au-dessus
         for (let i = 0; i < nextGoalIdx; i++) {
-            const goal = goals[i];
+            const goal = displayGoals[i];
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", i);
             li.classList.add("goal-attained");
@@ -167,7 +183,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
             listElement.appendChild(li);
         }
         // Affiche le prochain goal à atteindre en bas
-        if (nextGoalIdx < goals.length) {
+        if (nextGoalIdx < displayGoals.length) {
             // On réutilise l'élément créé plus haut
             if (animateIdx !== null) {
                 nextGoalLi.classList.add("goal-next-animate");
@@ -179,8 +195,8 @@ function createDonationGoalsList(goals, animateIdx = null) {
             listElement.appendChild(nextGoalLi);
         }
     }
-    window.setDonationGoals(goals);
-    window.donationGoals = goals;
+    window.setDonationGoals(displayGoals);
+    window.donationGoals = displayGoals;
 }
 
 function updateDonationGoalsOpacity(goals) {
