@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Arbre de dons - ZEvent 2025</title>
+        <link rel="stylesheet" href="tree-slider.css" />
+    </head>
+    <body>
+        <div class="tree-slider-container">
+            <div class="tree-images">
+                <img src="tree_empty.png" alt="Arbre vide" class="tree-empty" />
+                <img
+                    src="tree_fill.png"
+                    alt="Arbre rempli"
+                    class="tree-fill"
+                    id="treeFillImg" />
+            </div>
+            <div class="slider-controls">
+                <label for="treeFillSlider">Remplissage :</label>
+                <input
+                    type="range"
+                    id="treeFillSlider"
+                    min="0"
+                    max="100"
+                    value="0" />
+                <span id="treeFillValue">0%</span>
+            </div>
+        </div>
+        <script src="donation-goal-tree.js"></script>
+    </body>
+</html>

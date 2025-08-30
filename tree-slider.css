@@ -1,0 +1,47 @@
+/* Conteneur principal */
+.tree-slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #fff;
+}
+
+/* Conteneur des images d'arbre */
+.tree-images {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    margin-bottom: 30px;
+}
+
+/* Rotation du conteneur si reverse=true */
+/*.tree-rotated {
+    transform: rotate(180deg);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}*/
+
+.tree-empty,
+.tree-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+}
+
+.tree-fill {
+    transition: clip-path 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+.slider-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+}
