@@ -49,3 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // Si des dons arrivent avant streamerInfoReady
     window.addDonator = addDonator;
 });
+
+// Ajoute ce bloc pour écouter les donations via l'événement "donationEvent"
+document.addEventListener("donationEvent", function (e) {
+    const eventData = e.detail;
+    if (Array.isArray(eventData.message)) {
+        eventData.message.forEach((don) => {
+            addDonator(don.name, parseFloat(don.amount));
+        });
+    }
+});
