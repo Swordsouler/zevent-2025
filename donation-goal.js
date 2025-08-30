@@ -118,9 +118,22 @@ function createDonationGoalsList(goals, animateIdx = null) {
         );
         if (nextGoalIdx === -1) nextGoalIdx = goals.length; // tous atteints
 
-        console.log(
-            `[ZOOM MODE] Prochain goal à atteindre : index ${nextGoalIdx}`
-        );
+        // On prépare la variable pour la hauteur du prochain goal
+        let nextGoalHeight = 0;
+
+        // On crée d'abord le prochain goal (pour mesurer sa hauteur)
+        let nextGoalLi = null;
+        if (nextGoalIdx < goals.length) {
+            const goal = goals[nextGoalIdx];
+            nextGoalLi = document.createElement("li");
+            nextGoalLi.setAttribute("data-goal-index", nextGoalIdx);
+            nextGoalLi.classList.add("goal-next");
+            nextGoalLi.style.opacity = "0.5";
+            nextGoalLi.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            listElement.appendChild(nextGoalLi);
+            nextGoalHeight = nextGoalLi.offsetHeight;
+            listElement.removeChild(nextGoalLi); // On retire pour l'instant
+        }
 
         // Affiche les goals atteints au-dessus
         for (let i = 0; i < nextGoalIdx; i++) {
@@ -132,22 +145,21 @@ function createDonationGoalsList(goals, animateIdx = null) {
             // Anime uniquement les goals atteints si animateIdx est défini
             if (animateIdx !== null) {
                 li.classList.add("goal-attained-animate");
+                li.style.setProperty("--goal-move", `${nextGoalHeight}px`);
             }
             listElement.appendChild(li);
         }
         // Affiche le prochain goal à atteindre en bas
         if (nextGoalIdx < goals.length) {
-            const goal = goals[nextGoalIdx];
-            const li = document.createElement("li");
-            li.setAttribute("data-goal-index", nextGoalIdx);
-            li.classList.add("goal-next");
-            li.style.opacity = "0.5";
-            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
-            // Anime le goal non atteint uniquement sur le déplacement
+            // On réutilise l'élément créé plus haut
             if (animateIdx !== null) {
-                li.classList.add("goal-next-animate");
+                nextGoalLi.classList.add("goal-next-animate");
+                nextGoalLi.style.setProperty(
+                    "--goal-move",
+                    `${nextGoalHeight}px`
+                );
             }
-            listElement.appendChild(li);
+            listElement.appendChild(nextGoalLi);
         }
     }
     window.setDonationGoals(goals);

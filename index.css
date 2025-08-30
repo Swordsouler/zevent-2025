@@ -7,6 +7,18 @@
     flex-shrink: 0;
 }
 
+/* Masquer toutes les scrollbars */
+body,
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 .donation-text {
     color: #fff;
     border: none;
@@ -59,7 +71,7 @@ body {
 @keyframes goalUpMove {
     0% {
         opacity: 0.5;
-        transform: translateY(22px);
+        transform: translateY(var(--goal-move, 22px));
     }
     70% {
         opacity: 1;
@@ -78,7 +90,7 @@ body {
 }
 @keyframes goalNextUpMove {
     0% {
-        transform: translateY(22px);
+        transform: translateY(var(--goal-move, 22px));
     }
     100% {
         transform: translateY(0px);
