@@ -1,10 +1,14 @@
-.donation-euro {
+.donation-euro,
+.donator-amount {
     color: #05ea69;
     font-weight: bold;
-    min-width: 120px;
-    max-width: 120px;
     text-align: right;
     flex-shrink: 0;
+}
+
+.donation-euro {
+    min-width: 120px;
+    max-width: 120px;
 }
 
 /* Masquer toutes les scrollbars */
@@ -19,7 +23,8 @@ body::-webkit-scrollbar,
     display: none; /* Chrome, Safari, Opera */
 }
 
-.donation-text {
+.donation-text,
+.donator-name {
     color: #fff;
     border: none;
     padding: 0;
@@ -43,7 +48,8 @@ body {
     align-items: flex-start; /* Ancre à gauche */
 }
 
-#donation-goals-list {
+#donation-goals-list,
+#donator-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -55,7 +61,8 @@ body {
     align-items: flex-start; /* Ancre à gauche */
 }
 
-#donation-goals-list li {
+#donation-goals-list li,
+#donator-list li {
     font-size: 1.2em;
     display: flex;
     justify-content: flex-end;
