@@ -190,9 +190,13 @@ function createDonationGoalsList(goals, animateIdx = null) {
             nextGoalLi = document.createElement("li");
             nextGoalLi.setAttribute("data-goal-index", nextGoalIdx);
             nextGoalLi.classList.add("goal-next", "goal-zoom");
-            nextGoalLi.style.opacity = "0.5";
+            nextGoalLi.style.opacity = "1";
             nextGoalLi.innerHTML = `
-            <span class='donation-euro'>${goal.valeur}€</span>
+            ${
+                showAmount
+                    ? `<span class='donation-euro'>${goal.valeur}€</span>`
+                    : ""
+            }
             <span class='donation-text'>${goal.text}</span>
         `;
             listElement.appendChild(nextGoalLi);
@@ -217,7 +221,11 @@ function createDonationGoalsList(goals, animateIdx = null) {
                 li.classList.add("goal-center-text");
             }
             li.innerHTML = `
-            <span class='donation-euro'>${goal.valeur}€</span>
+            ${
+                showAmount
+                    ? `<span class='donation-euro'>${goal.valeur}€</span>`
+                    : ""
+            }
             <span class='donation-text'>${goal.text}</span>
         `;
             if (animateIdx !== null) {
@@ -271,7 +279,7 @@ function updateDonationGoalsOpacity(goals) {
         Array.from(listElement.children).forEach((li, idx) => {
             const goal = goals[idx];
             if (!goal) return;
-            const opacity = currentDonationValue >= goal.valeur ? 1 : 0.5;
+            const opacity = currentDonationValue >= goal.valeur ? 0.5 : 1;
             li.style.opacity = opacity;
         });
     }

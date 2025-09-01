@@ -85,6 +85,10 @@ body::-webkit-scrollbar,
     align-items: flex-start;
 }
 
+.goal-attained {
+    opacity: 0.5;
+}
+
 .anchor-top .goal-attained-animate {
     animation: goalDownMove 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
