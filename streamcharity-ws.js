@@ -63,3 +63,13 @@ script.onload = function () {
 script.onerror = function () {
     console.error("Échec du chargement de Socket.IO !");
 };
+
+// simulate receive 10 every 0.1 seconds, by a random name
+/*setInterval(() => {
+    const event = new CustomEvent("donationEvent", {
+        detail: {
+            message: [{ amount: "10", name: "RandomUser" }],
+        },
+    });
+    document.dispatchEvent(event);
+}, 100);*/

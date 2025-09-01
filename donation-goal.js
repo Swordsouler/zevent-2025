@@ -255,13 +255,3 @@ document.addEventListener("donationEvent", function (e) {
         });
     }
 });
-
-// simulate receive 100 every 1 seconds
-setInterval(() => {
-    const event = new CustomEvent("donationEvent", {
-        detail: {
-            message: [{ amount: "10" }],
-        },
-    });
-    document.dispatchEvent(event);
-}, 100);
