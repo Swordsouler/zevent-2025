@@ -224,3 +224,14 @@ body::-webkit-scrollbar,
     text-align: center !important;
     width: 100%;
 }
+
+.goal-zoom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0px !important;
+}
+.goal-zoom .donation-euro {
+    font-size: 2em !important;
+    width: 100%;
+    text-align: left;
+}

@@ -189,13 +189,12 @@ function createDonationGoalsList(goals, animateIdx = null) {
             const goal = displayGoals[nextGoalIdx];
             nextGoalLi = document.createElement("li");
             nextGoalLi.setAttribute("data-goal-index", nextGoalIdx);
-            nextGoalLi.classList.add("goal-next");
+            nextGoalLi.classList.add("goal-next", "goal-zoom");
             nextGoalLi.style.opacity = "0.5";
-            nextGoalLi.innerHTML = `${
-                showAmount
-                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
-                    : ""
-            }<span class='donation-text'>${goal.text}</span>`;
+            nextGoalLi.innerHTML = `
+            <span class='donation-euro'>${goal.valeur}€</span>
+            <span class='donation-text'>${goal.text}</span>
+        `;
             listElement.appendChild(nextGoalLi);
             nextGoalHeight = nextGoalLi.offsetHeight;
             listElement.removeChild(nextGoalLi); // On retire pour l'instant
@@ -213,15 +212,14 @@ function createDonationGoalsList(goals, animateIdx = null) {
             const goal = displayGoals[i];
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", i);
-            li.classList.add("goal-attained");
+            li.classList.add("goal-attained", "goal-zoom");
             if (showAmount === false) {
                 li.classList.add("goal-center-text");
             }
-            li.innerHTML = `${
-                showAmount
-                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
-                    : ""
-            }<span class='donation-text'>${goal.text}</span>`;
+            li.innerHTML = `
+            <span class='donation-euro'>${goal.valeur}€</span>
+            <span class='donation-text'>${goal.text}</span>
+        `;
             if (animateIdx !== null) {
                 li.classList.add("goal-attained-animate");
                 li.style.setProperty("--goal-move", `${nextGoalHeight}px`);
