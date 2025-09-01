@@ -1,14 +1,9 @@
 // Suivi du dernier goal atteint pour les logs de changement d'objectif
 let lastGoalIdx = null;
-// Charger PapaParse dynamiquement
-const papaScript = document.createElement("script");
-papaScript.src =
-    "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
-document.head.appendChild(papaScript);
 
 // Charger les donation goals depuis le CSV avec fetch
-function loadDonationGoalsFromCSV(csvPath) {
-    fetch(csvPath)
+function loadDonationGoalsFromCSV() {
+    fetch("donation-goals.csv")
         .then((response) => response.text())
         .then((csvText) => {
             Papa.parse(csvText, {
@@ -32,9 +27,17 @@ function loadDonationGoalsFromCSV(csvPath) {
 
 document.addEventListener("DOMContentLoaded", function () {
     let donationGoals = [];
-    papaScript.onload = function () {
-        loadDonationGoalsFromCSV("donation-goals.csv");
-    };
+    // Charge PapaParse dynamiquement si besoin
+    if (typeof Papa === "undefined") {
+        const papaScript = document.createElement("script");
+        papaScript.src =
+            "https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js";
+        document.head.appendChild(papaScript);
+        papaScript.onload = loadDonationGoalsFromCSV;
+    } else {
+        loadDonationGoalsFromCSV();
+    }
+
     // Slider pour contrôler la valeur de donation
     const slider = document.getElementById("donation-slider");
     const valueSpan = document.getElementById("donation-value");

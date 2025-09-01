@@ -120,3 +120,61 @@ body::-webkit-scrollbar,
         transform: translateY(0px);
     }
 }
+
+.donation-bar-container {
+    width: 100vw;
+    max-width: 100vw;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.donation-bar-bg {
+    width: 100vw;
+    height: 70px;
+    background: linear-gradient(to right, #0b2617 0%, #0b2617 100%);
+    border-radius: 20px;
+    border: 5px solid white;
+    overflow: hidden;
+    position: relative;
+}
+
+.donation-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #02e869 50%, #0b2617 50%);
+    border-radius: 15px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.donation-bar-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2em;
+    font-family: "AQCT", Arial, sans-serif;
+    z-index: 2;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+#donation-bar-current {
+    padding-left: 30px;
+}
+
+#donation-bar-goal {
+    padding-right: 30px;
+}

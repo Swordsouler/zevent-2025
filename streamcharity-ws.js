@@ -65,11 +65,11 @@ script.onerror = function () {
 };
 
 // simulate receive 10 every 0.1 seconds, by a random name
-/*setInterval(() => {
+setInterval(() => {
     const event = new CustomEvent("donationEvent", {
         detail: {
             message: [{ amount: "10", name: "RandomUser" }],
         },
     });
     document.dispatchEvent(event);
-}, 100);*/
+}, 100);

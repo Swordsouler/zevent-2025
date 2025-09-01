@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ZEvent 2025</title>
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <div class="donation-bar-container">
+            <div class="donation-bar-bg">
+                <div class="donation-bar-fill" id="donation-bar-fill"></div>
+                <div class="donation-bar-text">
+                    <span
+                        id="donation-bar-current"
+                        style="
+                            float: left;
+                            text-align: left;
+                            width: 50%;
+                        "></span>
+                    <span
+                        id="donation-bar-goal"
+                        style="
+                            float: right;
+                            text-align: right;
+                            width: 50%;
+                        "></span>
+                </div>
+            </div>
+        </div>
+        <script src="streamer-info.js"></script>
+        <script src="donation-goal.js"></script>
+        <script src="streamcharity-ws.js"></script>
+        <script src="donation-bar.js"></script>
+    </body>
+</html>
