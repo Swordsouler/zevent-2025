@@ -71,6 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         document.body.classList.add("anchor-left");
     }
+    // Ajout : gestion du point d'ancrage vertical
+    const verticalAnchor = getVerticalAnchor();
+    if (verticalAnchor === "top") {
+        document.body.classList.add("anchor-top");
+    } else {
+        document.body.classList.add("anchor-bottom");
+    }
 });
 
 // Valeur actuelle des dons
@@ -293,3 +300,9 @@ document.addEventListener("donationEvent", function (e) {
         });
     }
 });
+
+function getVerticalAnchor() {
+    const params = new URLSearchParams(window.location.search);
+    const anchor = params.get("anchor");
+    return anchor === "top" ? "top" : "bottom";
+}

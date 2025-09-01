@@ -79,6 +79,28 @@ body::-webkit-scrollbar,
     flex-direction: column-reverse;
 }
 
+.anchor-top #donation-goals-list {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.anchor-top .goal-attained-animate {
+    animation: goalDownMove 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes goalDownMove {
+    0% {
+        transform: translateY(calc(-1 * var(--goal-move, 22px)));
+    }
+    70% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
 #donation-goals-list li,
 #donator-list li {
     font-size: 2em;
@@ -114,6 +136,20 @@ body::-webkit-scrollbar,
 @keyframes goalNextUpMove {
     0% {
         transform: translateY(var(--goal-move, 22px));
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.anchor-top .goal-next-animate {
+    animation: goalNextDownMove 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    z-index: 2;
+    position: relative;
+}
+@keyframes goalNextDownMove {
+    0% {
+        transform: translateY(calc(-1 * var(--goal-move, 22px)));
     }
     100% {
         transform: translateY(0px);
