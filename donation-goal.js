@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         document.body.classList.add("anchor-bottom");
     }
+    // Synchronisation automatique toutes les 10 minutes
+    setInterval(fetchAndSetDonationValue, 10 * 60 * 1000);
 });
 
 // Valeur actuelle des dons
