@@ -18,7 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function updateDonationBar(value) {
+    function updateDonationBar() {
+        if (!window.donationGoals) {
+            console.log("[updateFill] Pas de goalsList ou donationGoals");
+            return;
+        }
+        const value = window.currentDonationValue || 0;
+        console.log("[updateFill] value:", value);
         const nextGoalValue = getNextGoalValue(value);
         const percent = Math.min(
             100,
@@ -41,35 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Synchronise avec la variable globale
-    function listenDonationValue() {
-        let lastValue = window.currentDonationValue || 0;
-        setInterval(() => {
-            if (window.currentDonationValue !== lastValue) {
-                lastValue = window.currentDonationValue;
-                updateDonationBar(lastValue);
-            }
-        }, 200);
-    }
+    setTimeout(updateDonationBar, 500);
 
-    // Initialise la barre au chargement
-
-    // Met à jour la barre à chaque événement de don
-    document.addEventListener("donationEvent", function (e) {
-        const eventData = e.detail;
-        if (Array.isArray(eventData.message)) {
-            eventData.message.forEach((don) => {
-                const montant = parseFloat(don.amount);
-                if (!isNaN(montant)) {
-                    if (typeof window.currentDonationValue === "undefined") {
-                        window.currentDonationValue = 0;
-                    }
-                    window.currentDonationValue += montant;
-                    updateDonationBar(window.currentDonationValue);
-                }
-            });
-        }
-    });
-    updateDonationBar(window.currentDonationValue || 0);
-    listenDonationValue();
+    document.addEventListener("streamerInfoReady", updateDonationBar);
+    document.addEventListener("donationEvent", updateDonationBar);
 });

@@ -99,25 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fillImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     }
 
-    // Met à jour à chaque changement de donation
-    function listenDonationValue() {
-        let lastValue = window.currentDonationValue;
-        setInterval(() => {
-            if (window.currentDonationValue !== lastValue) {
-                lastValue = window.currentDonationValue;
-                updateFill();
-            }
-        }, 200);
-    }
-
     updateRotation();
-    setTimeout(updateFill, 500); // Attend le rendu de la liste
-    listenDonationValue();
+    setTimeout(updateFill, 500);
 
-    document.addEventListener("streamerInfoReady", () =>
-        setTimeout(updateFill, 500)
-    );
-    document.addEventListener("donationEvent", () =>
-        setTimeout(updateFill, 500)
-    );
+    document.addEventListener("streamerInfoReady", updateFill);
+    document.addEventListener("donationEvent", updateFill);
 });
