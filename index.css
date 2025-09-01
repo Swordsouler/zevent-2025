@@ -151,8 +151,11 @@ body::-webkit-scrollbar,
     width: 0%;
     background: linear-gradient(to right, #02e869 50%, #0b2617 50%);
     border-radius: 15px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
+}
+#donation-bar-separator {
+    transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .donation-bar-text {

@@ -25,11 +25,20 @@ document.addEventListener("DOMContentLoaded", function () {
             Math.max(0, (value / nextGoalValue) * 100)
         );
         document.getElementById("donation-bar-fill").style.width =
-            percent + "%";
+            percent * 2 + "%";
         document.getElementById("donation-bar-current").textContent =
             Math.floor(value).toLocaleString("fr-FR") + " €";
         document.getElementById("donation-bar-goal").textContent =
             nextGoalValue.toLocaleString("fr-FR") + " €";
+
+        // Positionne le séparateur
+        const separator = document.getElementById("donation-bar-separator");
+        const barBg = document.querySelector(".donation-bar-bg");
+        if (separator && barBg) {
+            const barWidth = barBg.offsetWidth;
+            const x = (percent / 100) * barWidth - separator.offsetWidth / 2;
+            separator.style.left = `${x}px`;
+        }
     }
 
     // Synchronise avec la variable globale
