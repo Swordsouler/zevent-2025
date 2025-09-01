@@ -1,3 +1,8 @@
+function getShowAmountZoom() {
+    const params = new URLSearchParams(window.location.search);
+    const showAmount = params.get("showAmount");
+    return showAmount !== "false";
+}
 // Suivi du dernier goal atteint pour les logs de changement d'objectif
 let lastGoalIdx = null;
 
@@ -122,21 +127,24 @@ function isReverseMode() {
     return params.get("reverse") === "true";
 }
 
+function getMaxGoalsZoom() {
+    const params = new URLSearchParams(window.location.search);
+    const maxGoals = parseInt(params.get("max"), 10);
+    return isNaN(maxGoals) ? null : maxGoals;
+}
+
 function createDonationGoalsList(goals, animateIdx = null) {
     const listElement = document.getElementById("donation-goals-list");
     if (!listElement) {
-        // Pas de liste à afficher dans cette page, on synchronise juste les variables globales
         window.setDonationGoals(goals);
         window.donationGoals = goals;
         return;
     }
     listElement.innerHTML = "";
 
-    // Inverse la liste si reverse
-    // const displayGoals = isReverseMode() ? [...goals].reverse() : goals;
     const displayGoals = goals;
 
-    // Ajout : padding vertical selon le mode
+    const showAmount = getShowAmountZoom();
     if (!isZoomMode()) {
         listElement.style.paddingTop = "100px";
         listElement.style.paddingBottom = "100px";
@@ -148,7 +156,11 @@ function createDonationGoalsList(goals, animateIdx = null) {
             if (!Number.isFinite(goal.valeur) || !goal.text) return;
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", idx);
-            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            li.innerHTML = `${
+                showAmount
+                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
+                    : ""
+            }<span class='donation-text'>${goal.text}</span>`;
             listElement.appendChild(li);
         });
     } else {
@@ -172,29 +184,52 @@ function createDonationGoalsList(goals, animateIdx = null) {
             nextGoalLi.setAttribute("data-goal-index", nextGoalIdx);
             nextGoalLi.classList.add("goal-next");
             nextGoalLi.style.opacity = "0.5";
-            nextGoalLi.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
+            nextGoalLi.innerHTML = `${
+                showAmount
+                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
+                    : ""
+            }<span class='donation-text'>${goal.text}</span>`;
             listElement.appendChild(nextGoalLi);
             nextGoalHeight = nextGoalLi.offsetHeight;
             listElement.removeChild(nextGoalLi); // On retire pour l'instant
         }
 
+        // Limite le nombre de goals affichés (maxGoals)
+        let maxGoals = getMaxGoalsZoom();
+        let startIdx = 0;
+        if (maxGoals !== null) {
+            startIdx = Math.max(0, nextGoalIdx - maxGoals);
+        }
+
         // Affiche les goals atteints au-dessus
-        for (let i = 0; i < nextGoalIdx; i++) {
+        for (let i = startIdx; i < nextGoalIdx; i++) {
             const goal = displayGoals[i];
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", i);
             li.classList.add("goal-attained");
-            li.innerHTML = `<span class='donation-euro'>${goal.valeur}€</span> <span class='donation-text'>${goal.text}</span>`;
-            // Anime uniquement les goals atteints si animateIdx est défini
+            if (showAmount === false) {
+                li.classList.add("goal-center-text");
+            }
+            li.innerHTML = `${
+                showAmount
+                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
+                    : ""
+            }<span class='donation-text'>${goal.text}</span>`;
             if (animateIdx !== null) {
                 li.classList.add("goal-attained-animate");
                 li.style.setProperty("--goal-move", `${nextGoalHeight}px`);
             }
             listElement.appendChild(li);
         }
-        // Affiche le prochain goal à atteindre en bas
         if (nextGoalIdx < displayGoals.length) {
-            // On réutilise l'élément créé plus haut
+            if (!showAmount) {
+                nextGoalLi.classList.add("goal-center-text");
+            }
+            // Si maxGoals = 0, force l'opacité à 1
+            let maxGoals = getMaxGoalsZoom();
+            if (maxGoals === 0) {
+                nextGoalLi.style.opacity = "1";
+            }
             if (animateIdx !== null) {
                 nextGoalLi.classList.add("goal-next-animate");
                 nextGoalLi.style.setProperty(

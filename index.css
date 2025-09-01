@@ -55,7 +55,6 @@ body::-webkit-scrollbar,
     white-space: pre-line;
     flex: 1;
     text-align: left;
-    margin-right: 10px;
 }
 
 #donation-goals-list,
@@ -180,4 +179,12 @@ body::-webkit-scrollbar,
 
 #donation-bar-goal {
     padding-right: 30px;
+}
+
+.goal-center-text,
+.goal-center-text span {
+    display: flex !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100%;
 }
