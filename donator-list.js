@@ -55,14 +55,18 @@ function renderDonatorList() {
             // Pseudo à droite, montant à gauche
             li.innerHTML = `${
                 showAmount
-                    ? `<span class="donator-amount">${don.amount}€</span>`
+                    ? `<span class="donator-amount">${don.amount.toLocaleString(
+                          "fr-FR"
+                      )} €</span>`
                     : ""
             } <span class="donator-name">${don.name}</span>`;
         } else {
             // Pseudo à gauche, montant à droite
             li.innerHTML = `<span class="donator-name">${don.name}</span> ${
                 showAmount
-                    ? `<span class="donator-amount">${don.amount}€</span>`
+                    ? `<span class="donator-amount">${don.amount.toLocaleString(
+                          "fr-FR"
+                      )} €</span>`
                     : ""
             }`;
         }
