@@ -236,7 +236,9 @@ body::-webkit-scrollbar,
 }
 .goal-zoom .donation-euro {
     font-size: 2em !important;
-    width: 100%;
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
     text-align: left;
 }
 
