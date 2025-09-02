@@ -239,3 +239,10 @@ body::-webkit-scrollbar,
     width: 100%;
     text-align: left;
 }
+
+.next-goal-highlight {
+    border: 5px solid #05ea69;
+    border-radius: 20px;
+    background: rgba(5, 234, 105, 0.08);
+    box-sizing: border-box;
+}

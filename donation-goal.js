@@ -165,10 +165,18 @@ function createDonationGoalsList(goals, animateIdx = null) {
         console.log(
             "[DONATION GOALS] Affichage de la liste complète des goals"
         );
+        // Trouve l'index du prochain goal à atteindre
+        const nextGoalIdx = displayGoals.findIndex(
+            (g) => currentDonationValue < g.valeur
+        );
         displayGoals.forEach((goal, idx) => {
             if (!Number.isFinite(goal.valeur) || !goal.text) return;
             const li = document.createElement("li");
             li.setAttribute("data-goal-index", idx);
+            // Ajoute la classe si c'est le prochain goal à atteindre
+            if (idx === nextGoalIdx) {
+                li.classList.add("next-goal-highlight");
+            }
             li.innerHTML = `${
                 showAmount
                     ? `<span class='donation-euro'>${goal.valeur.toLocaleString(
@@ -281,6 +289,9 @@ function updateDonationGoalsOpacity(goals) {
                 createDonationGoalsList(goals);
                 updateDonationGoalsOpacity(goals);
             }, 700);
+        } else {
+            // En mode normal, on régénère la liste pour mettre à jour le next goal
+            createDonationGoalsList(goals);
         }
         lastGoalIdx = nextGoalIdx;
     }
