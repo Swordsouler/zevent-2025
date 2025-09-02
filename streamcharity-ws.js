@@ -29,7 +29,21 @@ script.onload = function () {
         }
 
         streamlabs.on("event", (eventData) => {
-            if (/*!eventData.for && */ eventData.type === "donation") {
+            // print eventData as string
+            if (eventData.type === "streamlabscharitydonation") {
+                console.log("Donation:", eventData.message);
+                // Ajout : transforme le format pour le système de dons
+                const dons = eventData.message.map((don) => ({
+                    name: don.from,
+                    amount: parseFloat(don.amount),
+                }));
+                document.dispatchEvent(
+                    new CustomEvent("donationEvent", {
+                        detail: { message: dons },
+                    })
+                );
+            }
+            if (eventData.type === "donation") {
                 console.log("Donation:", eventData.message);
                 document.dispatchEvent(
                     new CustomEvent("donationEvent", { detail: eventData })
@@ -65,7 +79,7 @@ script.onerror = function () {
 };
 
 // simulate receive 10 every 0.1 seconds, by a random name
-setInterval(() => {
+/*setInterval(() => {
     const randomName = "User" + Math.floor(Math.random() * 1000);
     const event = new CustomEvent("donationEvent", {
         detail: {
@@ -73,4 +87,4 @@ setInterval(() => {
         },
     });
     document.dispatchEvent(event);
-}, 100);
+}, 100);*/

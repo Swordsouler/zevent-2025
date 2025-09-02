@@ -49,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (slider && valueSpan) {
         slider.addEventListener("input", function () {
             currentDonationValue = parseInt(slider.value, 10);
-            valueSpan.textContent = currentDonationValue + "€";
+            valueSpan.textContent =
+                currentDonationValue.toLocaleString("fr-FR");
+            +" €";
             if (donationGoals.length > 0) {
                 updateDonationGoalsOpacity(donationGoals);
             }
@@ -92,7 +94,9 @@ Object.defineProperty(window, "currentDonationValue", {
         _currentDonationValue = val;
         const valueSpan = document.getElementById("donation-value");
         if (valueSpan) {
-            valueSpan.textContent = _currentDonationValue + "€";
+            valueSpan.textContent =
+                _currentDonationValue.toLocaleString("fr-FR");
+            +" €";
         }
         if (window.setDonationGoals && window.donationGoals) {
             updateDonationGoalsOpacity(window.donationGoals);
@@ -167,7 +171,9 @@ function createDonationGoalsList(goals, animateIdx = null) {
             li.setAttribute("data-goal-index", idx);
             li.innerHTML = `${
                 showAmount
-                    ? `<span class='donation-euro'>${goal.valeur}€</span> `
+                    ? `<span class='donation-euro'>${goal.valeur.toLocaleString(
+                          "fr-FR"
+                      )} €</span> `
                     : ""
             }<span class='donation-text'>${goal.text}</span>`;
             listElement.appendChild(li);
@@ -196,7 +202,9 @@ function createDonationGoalsList(goals, animateIdx = null) {
             nextGoalLi.innerHTML = `
             ${
                 showAmount
-                    ? `<span class='donation-euro'>${goal.valeur}€</span>`
+                    ? `<span class='donation-euro'>${goal.valeur.toLocaleString(
+                          "fr-FR"
+                      )} €</span>`
                     : ""
             }
             <span class='donation-text'>${goal.text}</span>
@@ -225,7 +233,7 @@ function createDonationGoalsList(goals, animateIdx = null) {
             li.innerHTML = `
             ${
                 showAmount
-                    ? `<span class='donation-euro'>${goal.valeur}€</span>`
+                    ? `<span class='donation-euro'>${goal.valeur} €</span>`
                     : ""
             }
             <span class='donation-text'>${goal.text}</span>
@@ -299,7 +307,9 @@ document.addEventListener("donationEvent", function (e) {
                 window.currentDonationValue += montant;
                 const valueSpan = document.getElementById("donation-value");
                 if (valueSpan) {
-                    valueSpan.textContent = window.currentDonationValue + "€";
+                    valueSpan.textContent =
+                        window.currentDonationValue.toLocaleString("fr-FR");
+                    +" €";
                 }
                 if (window.setDonationGoals) {
                     updateDonationGoalsOpacity(window.donationGoals || []);
