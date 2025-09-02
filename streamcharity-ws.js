@@ -79,7 +79,7 @@ script.onerror = function () {
 };
 
 // simulate receive 10 every 0.1 seconds, by a random name
-setInterval(() => {
+/*setInterval(() => {
     const randomName = "User" + Math.floor(Math.random() * 1000);
     const event = new CustomEvent("donationEvent", {
         detail: {
@@ -87,4 +87,4 @@ setInterval(() => {
         },
     });
     document.dispatchEvent(event);
-}, 100);
+}, 100);*/
