@@ -31,19 +31,25 @@ script.onload = function () {
         streamlabs.on("event", (eventData) => {
             // print eventData as string
             if (eventData.type === "streamlabscharitydonation") {
-                console.log("Donation:", eventData.message);
-                // Ajout : transforme le format pour le système de dons
-                const dons = eventData.message.map((don) => ({
-                    name: don.from,
-                    amount: parseFloat(don.amount),
-                }));
-                document.dispatchEvent(
-                    new CustomEvent("donationEvent", {
-                        detail: { message: dons },
-                    })
+                // Filtrer les dons de test
+                const donsReels = eventData.message.filter(
+                    (don) => !don.isTest
                 );
+                if (donsReels.length > 0) {
+                    console.log("Donation:", donsReels);
+                    // Ajout : transforme le format pour le système de dons
+                    const dons = donsReels.map((don) => ({
+                        name: don.from,
+                        amount: parseFloat(don.amount),
+                    }));
+                    document.dispatchEvent(
+                        new CustomEvent("donationEvent", {
+                            detail: { message: dons },
+                        })
+                    );
+                }
             }
-            if (eventData.type === "donation") {
+            /*if (eventData.type === "donation") {
                 console.log("Donation:", eventData.message);
                 document.dispatchEvent(
                     new CustomEvent("donationEvent", { detail: eventData })
@@ -63,7 +69,7 @@ script.onload = function () {
                             eventData.message
                         );
                 }
-            }
+            }*/
         });
     }
 
