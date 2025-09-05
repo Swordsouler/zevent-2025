@@ -86,7 +86,8 @@ script.onerror = function () {
 
 // simulate receive 10 every 0.1 seconds, by a random name
 /*setInterval(() => {
-    const randomName = "User" + Math.floor(Math.random() * 1000);
+    const randomName =
+        "User User User User User User User" + Math.floor(Math.random() * 1000);
     const event = new CustomEvent("donationEvent", {
         detail: {
             message: [{ amount: "10", name: randomName }],
@@ -94,3 +95,18 @@ script.onerror = function () {
     });
     document.dispatchEvent(event);
 }, 100);*/
+
+// trigger on press space
+/*document.addEventListener("keydown", (event) => {
+    if (event.code === "Space") {
+        const randomName =
+            "User User User User User User User" +
+            Math.floor(Math.random() * 1000);
+        const event = new CustomEvent("donationEvent", {
+            detail: {
+                message: [{ amount: "10", name: randomName }],
+            },
+        });
+        document.dispatchEvent(event);
+    }
+});*/

@@ -101,6 +101,10 @@ document.addEventListener("donationEvent", function (e) {
     const eventData = e.detail;
     if (Array.isArray(eventData.message)) {
         eventData.message.forEach((don) => {
+            // truncate 20 characters max for donator name
+            if (don.name.length > 20) {
+                don.name = don.name.substring(0, 17) + "...";
+            }
             addDonator(don.name, parseFloat(don.amount));
         });
     }
